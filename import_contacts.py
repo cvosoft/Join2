@@ -1,5 +1,14 @@
+import os
+import django
 import json
-from joinbackend_app.models import Contact  # Ersetze 'your_app' mit dem Namen deiner Django-App
+
+# Django Umgebung einrichten
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "joinbackend.settings")  # Ersetze mit deinem Projekt
+django.setup()
+
+
+from joinbackend_app.models import Contact
+
 
 # JSON-Daten
 contacts = [
@@ -62,16 +71,29 @@ contacts = [
 ]
 
 # Kontakte in die Datenbank speichern
+
+
 def import_contacts():
     for contact in contacts:
         Contact.objects.create(
             first_name=contact["firstName"],
             last_name=contact["lastName"],
-            email=contact.get("email", "default@gmx.de"),  # Default-Wert, falls kein E-Mail vorhanden ist
-            phone_number=contact.get("phoneNumber", ""),  # Falls keine Telefonnummer vorhanden ist
+            # Default-Wert, falls kein E-Mail vorhanden ist
+            email=contact.get("email", "default@gmx.de"),
+            # Falls keine Telefonnummer vorhanden ist
+            phone_number=contact.get("phoneNumber", ""),
             profileColor=contact.get("profileColor", "#1FD7C1"),
         )
     print("Import abgeschlossen!")
 
+
+def delete_contacts():
+    Contact.objects.all().delete()
+    print("Alles löschen abgeschlossen!")
+
+
+
 # Funktion ausführen
-import_contacts()
+if __name__ == "__main__":
+    delete_contacts()
+    import_contacts()
