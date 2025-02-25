@@ -1,4 +1,4 @@
-JOIN!
+JOIN 2.0!
 
-Frontend: VanillaJS
+Frontend: VanillaJS  
 Backend: DRF
