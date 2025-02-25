@@ -1,18 +1,25 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from .serializers import ContactSerializer
+from joinbackend_app.models import Contact
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def contacts_view(request):
     if request.method == 'GET':
-        return Response({"message": "hallo!!!"})
+        contacts = Contact.objects.all()
+        serializer = ContactSerializer(contacts, many=True)
+        return Response(serializer.data)
+
     if request.method == 'POST':
-        try:
-            msg = request.data['message']
-            return Response({"message": msg}, status=status.HTTP_201_CREATED)
-        except:
-            return Response({"message": "error"}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = ContactSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+
     if request.method == 'PUT':
         pass
     if request.method == 'DELETE':
