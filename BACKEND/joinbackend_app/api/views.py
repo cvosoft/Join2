@@ -1,8 +1,19 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, mixins, generics
 from .serializers import ContactSerializer
 from joinbackend_app.models import Contact
+
+
+class ContactsView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Contact.objects.all()
+    serializer = ContactSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
