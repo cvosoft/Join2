@@ -5,17 +5,16 @@ from joinbackend_app.models import Contact, User, Task
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = ['id', 'first_name', 'last_name',
-                  'email', 'phone_number', 'profileColor']
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'password']
+        fields = '__all__'
 
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ['id', 'task_name']
+        fields = '__all__'
