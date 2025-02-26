@@ -1,10 +1,11 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, mixins, generics
-from .serializers import ContactSerializer
-from joinbackend_app.models import Contact
+from .serializers import ContactSerializer, UserSerializer, TaskSerializer
+from joinbackend_app.models import Contact, User, Task
 
 
+# LIST VIEWS
 class ContactsView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
@@ -16,78 +17,75 @@ class ContactsView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Gene
         return self.create(request, *args, **kwargs)
 
 
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def contacts_view(request):
-    if request.method == 'GET':
-        contacts = Contact.objects.all()
-        serializer = ContactSerializer(contacts, many=True)
-        return Response(serializer.data)
+class UsersView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    if request.method == 'POST':
-        serializer = ContactSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
-    if request.method == 'PUT':
-        pass
-    if request.method == 'DELETE':
-        pass
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
-@api_view(['GET', 'DELETE', 'PUT'])
-def contacts_single_view(request, pk):
-    if request.method == 'GET':
-        contact = Contact.objects.get(pk=pk)
-        serializer = ContactSerializer(contact)
-        return Response(serializer.data)
+class TasksView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
 
-    if request.method == 'PUT':
-        contact = Contact.objects.get(pk=pk)
-        serializer = ContactSerializer(
-            contact, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
-    if request.method == 'DELETE':
-        contact = Contact.objects.get(pk=pk)
-        serializer = ContactSerializer(contact)
-        contact.delete()
-        return Response(serializer.data)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
-@api_view(['GET', 'POST'])
-def users_view(request):
-    if request.method == 'GET':
-        return Response({"message": "hallo!!!"})
-    if request.method == 'POST':
-        pass
+# DETAIL VIEWS
+class ContactDetailView(mixins.RetrieveModelMixin,
+                        mixins.UpdateModelMixin,
+                        mixins.DestroyModelMixin,
+                        generics.GenericAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
-@api_view(['GET', 'POST', 'DELETE', 'PUT'])
-def tasks_view(request):
-    if request.method == 'GET':
-        return Response({"message": "hallo!!!"})
-    if request.method == 'POST':
-        pass
-    if request.method == 'PUT':
-        pass
-    if request.method == 'DELETE':
-        pass
+class UserDetailView(mixins.RetrieveModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.DestroyModelMixin,
+                     generics.GenericAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
-@api_view(['GET', 'POST', 'DELETE', 'PUT'])
-def subtasks_view(request):
-    if request.method == 'GET':
-        return Response({"message": "hallo!!!"})
-    if request.method == 'POST':
-        pass
-    if request.method == 'PUT':
-        pass
-    if request.method == 'DELETE':
-        pass
+class TaskDetailView(mixins.RetrieveModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.DestroyModelMixin,
+                     generics.GenericAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
