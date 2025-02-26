@@ -13,7 +13,10 @@ class Contact(models.Model):
     profileColor = models.CharField(max_length=30, default="#1FD7C1")
 
     class Meta:
-        ordering = ['last_name']
+        ordering = ['first_name']
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 
 # one task to many subtasks
