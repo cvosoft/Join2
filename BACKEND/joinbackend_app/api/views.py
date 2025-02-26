@@ -7,7 +7,7 @@ from joinbackend_app.models import Contact
 
 class ContactsView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Contact.objects.all()
-    serializer = ContactSerializer
+    serializer_class = ContactSerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
