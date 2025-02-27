@@ -164,7 +164,8 @@ function resetAddContactForm() {
  */
 async function createContact() {
   data = getDataForNewContact();
-  await putData(`contacts/${contacts.length}`, data);
+  //await putData(`contacts/${contacts.length}`, data);
+  await postData("contacts/", data);
   resetAddContactForm();
   onLoadFunc();
   closeAddOrEditContact();
