@@ -6,6 +6,7 @@ let prios = ["Low", "Medium", "Urgent"];
 let prioIndex = 0;
 
 let selectedTaskContacts = [];
+let selectedTaskContactsIds = [];
 
 /**
  * Onload Function for the Add Task page
@@ -238,8 +239,10 @@ function loadContactList() {
 function selectContacts(i) {
   if (selectedTaskContacts.indexOf(contacts[i]) == -1) {
     selectedTaskContacts.push(contacts[i]);
+    selectedTaskContactsIds.push(contacts[i].id);
   } else {
     selectedTaskContacts.splice(selectedTaskContacts.indexOf(contacts[i]), 1);
+    selectedTaskContactsIds.splice(selectedTaskContactsIds.indexOf(contacts[i].id), 1);
   }
   showSelectedContacts();
 }
@@ -358,10 +361,10 @@ async function addTask(column) {
     "title": document.getElementById("title").value,
     "description": document.getElementById("description").value,
     "subtasks": [],
-    "assignedTo": [],
+    "assigned_to": selectedTaskContactsIds,
     "category": taskCategory,
     "priority": prios[prioIndex],
-    "dueDate": document.getElementById("date").value,
+    "due_date": document.getElementById("date").value,
     "type": document.getElementById("category").value,
   };
 

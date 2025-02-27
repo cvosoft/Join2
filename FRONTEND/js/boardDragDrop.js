@@ -103,14 +103,15 @@ async function moveTo(category) {
  * function to move task on category up (mobile view)
  * @param {} id
  */
-function moveTaskCategoryUp(id) {
-  let boardtask = boardTasks[id].category;
-  if (boardtask == "progress") {
-    boardTasks[id].category = "todo";
-  } else if (boardtask == "feedback") {
-    boardTasks[id].category = "progress";
-  } else if (boardtask == "done") {
-    boardTasks[id].category = "feedback";
+function moveTaskCategoryUp(index) {
+  let id = boardTasks[index].id;
+  let category = boardTasks[index].category;
+  if (category == "progress") {
+    patchData(`tasks/${id}/`, { "category": "todo" });
+  } else if (category == "feedback") {
+    patchData(`tasks/${id}/`, { "category": "progress" });
+  } else if (category == "done") {
+    patchData(`tasks/${id}/`, { "category": "feedback" });
   }
   renderAllBoardTasks();
 }
@@ -119,14 +120,16 @@ function moveTaskCategoryUp(id) {
  * function to move task on category down (mobile view)
  * @param {} id
  */
-function moveTaskCategoryDown(id) {
-  let boardtask = boardTasks[id].category;
-  if (boardtask == "todo") {
-    boardTasks[id].category = "progress";
-  } else if (boardtask == "progress") {
-    boardTasks[id].category = "feedback";
-  } else if (boardtask == "feedback") {
-    boardTasks[id].category = "done";
+function moveTaskCategoryDown(index) {
+  let id = boardTasks[index].id;
+  let category = boardTasks[index].category;
+
+  if (category == "todo") {
+    patchData(`tasks/${id}/`, { "category": "progress" });
+  } else if (category == "progress") {
+    patchData(`tasks/${id}/`, { "category": "feedback" });
+  } else if (category == "feedback") {
+    patchData(`tasks/${id}/`, { "category": "done" });
   }
   renderAllBoardTasks();
 }

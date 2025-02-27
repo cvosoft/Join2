@@ -112,15 +112,18 @@ function showEditTask(id) {
  * function to save/update an editted task
  * @param {*} id
  */
-async function editTask(id) {
-  boardTasks[id].title = document.getElementsByClassName("titleId")[1].value;
-  boardTasks[id].description = document.getElementsByClassName("descriptionId")[1].value;
-  boardTasks[id].dueDate = document.getElementsByClassName("dateId")[1].value;
-  boardTasks[id].type = document.getElementsByClassName("categoryId")[1].value;
-  boardTasks[id].priority = prios[prioIndex];
-  boardTasks[id].assignedTo = selectedTaskContacts;
-  boardTasks[id].subtasks = generateJSONFromSubtasks();
-  await putData("boardtasks", boardTasks);
+async function editTask(index) {
+  let id = boardTasks[index].id;
+  let data = {
+    title: document.getElementsByClassName("titleId")[1].value,
+    description: document.getElementsByClassName("descriptionId")[1].value,
+    dueDate: document.getElementsByClassName("dateId")[1].value,
+    type: document.getElementsByClassName("categoryId")[1].value,
+    priority: prios[prioIndex],
+    assignedTo: [],
+    subtasks: [],
+  }
+  await patchData(`tasks/${id}/`, data);
   removeboardBigContainer();
 }
 
