@@ -174,9 +174,17 @@ async function createContact() {
 /**
  * function deletes a contact and updates the remote database
  */
-async function deleteContact(id) {
-  contacts.splice(id, 1);
-  await putData("contacts", contacts);
+// async function deleteContact(id) {
+//   contacts.splice(id, 1);
+//   await putData("contacts", contacts);
+//   closeAddOrEditContact();
+//   backToContactList();
+//   renderContacts();
+//   document.getElementById("contactSingleView").innerHTML = "";
+// }
+async function deleteContact(index) {
+  let id = contacts[index].id;
+  await deleteData(`contacts/${id}/`);
   closeAddOrEditContact();
   backToContactList();
   renderContacts();

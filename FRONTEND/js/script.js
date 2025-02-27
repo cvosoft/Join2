@@ -45,6 +45,18 @@ async function loadData(path = "") {
   return (responseToJson = await response.json());
 }
 
+
+async function deleteData(path = "") {
+  let response = await fetch(BASE_URL + path, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.json();
+}
+
+
 /**
  * put data function
  * @param {*} path
@@ -73,7 +85,7 @@ async function postData(path = "", data = {}) {
     body: JSON.stringify(data),
   });
   console.log(JSON.stringify(data));
-  
+
   return response.json();
 }
 
