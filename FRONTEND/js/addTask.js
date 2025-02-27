@@ -15,7 +15,7 @@ async function onLoadAddTask() {
   updateHeaderInitials();
   document.getElementById("closeButton").style.display = "none";
   contacts = await loadData("contacts");
-  boardTasks = await loadData("boardtasks");
+  boardTasks = await loadData("tasks");
   loadContactList();
   prioChoose(1); //pre-selected medium
   // minimum date for new tasks is today

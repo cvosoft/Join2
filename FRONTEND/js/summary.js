@@ -3,7 +3,7 @@
  */
 async function onLoadSummary() {
   await includeHTML();
-  boardTasks = await loadData("boardtasks");
+  boardTasks = await loadData("tasks");
   greetUser();
   fillSummaryFields();
   await updateHeaderInitials();

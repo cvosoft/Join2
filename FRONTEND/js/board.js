@@ -6,7 +6,7 @@ let boardTasks = [];
 async function boardInit() {
   await includeHTML();
   updateHeaderInitials();
-  boardTasks = await loadData("boardtasks");
+  boardTasks = await loadData("tasks");
   contacts = await loadData("contacts");
   renderAllBoardTasks();
 }
