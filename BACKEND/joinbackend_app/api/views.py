@@ -1,8 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, mixins, generics
-from .serializers import ContactSerializer, UserSerializer, TaskSerializer
-from joinbackend_app.models import Contact, User, Task
+from .serializers import ContactSerializer, UserSerializer, TaskSerializer, SubtaskSerializer
+from joinbackend_app.models import Contact, User, Task, Subtask
 
 
 # LIST VIEWS
@@ -31,6 +31,17 @@ class UsersView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generic
 class TasksView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class SubtasksView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Subtask.objects.all()
+    serializer_class = SubtaskSerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -80,6 +91,23 @@ class TaskDetailView(mixins.RetrieveModelMixin,
                      generics.GenericAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+class SubtaskDetailView(mixins.RetrieveModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.DestroyModelMixin,
+                     generics.GenericAPIView):
+    queryset = Subtask.objects.all()
+    serializer_class = SubtaskSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

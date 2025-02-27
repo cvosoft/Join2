@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from joinbackend_app.models import Contact, User, Task
+from joinbackend_app.models import Contact, User, Task, Subtask
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -17,4 +17,10 @@ class UserSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
+        fields = '__all__'
+
+
+class SubtaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subtask
         fields = '__all__'

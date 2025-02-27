@@ -27,37 +27,37 @@ class Subtask(models.Model):
 
 class Task(models.Model):
     TASK_CATEGORIES = [
-        ("feedback", "Feedback"),
-        ("todo", "To Do"),
-        ("progress", "In Progress"),
-        ("done", "Done"),
+        ("Feedback", "Feedback"),
+        ("To Do", "To Do"),
+        ("In Progress", "In Progress"),
+        ("Done", "Done"),
     ]
 
     PRIORITY_CHOICES = [
-        ("low", "Low"),
-        ("medium", "Medium"),
-        ("urgent", "Urgent"),
+        ("Low", "Low"),
+        ("Medium", "Medium"),
+        ("Urgent", "Urgent"),
     ]
 
     TYPE_CHOICES = [
-        ("technical_task", "Technical Task"),
-        ("user_story", "User Story"),
+        ("Technical Task", "Technical Task"),
+        ("User Story", "User Story"),
     ]
 
-    task_name = models.CharField(max_length=30)
+    title = models.CharField(max_length=30)
     description = models.TextField(default="beschreibung!")
     subtasks = models.ManyToManyField(Subtask, blank=True)
     assigned_to = models.ManyToManyField(Contact, blank=True)
     due_date = models.DateField(default=datetime.date.today)
     category = models.CharField(
-        max_length=20, choices=TASK_CATEGORIES, default="todo")
+        max_length=20, choices=TASK_CATEGORIES, default="To Do")
     priority = models.CharField(
-        max_length=20, choices=PRIORITY_CHOICES, default="medium")
+        max_length=20, choices=PRIORITY_CHOICES, default="Medium")
     type = models.CharField(
-        max_length=20, choices=TYPE_CHOICES, default="user_story")
+        max_length=20, choices=TYPE_CHOICES, default="User Story")
 
     class Meta:
-        ordering = ['task_name']
+        ordering = ['title']
 
 
 class User(models.Model):
