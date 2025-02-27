@@ -7,19 +7,7 @@ let currentId;
 async function onLoadFunc() {
   await includeHTML();
   updateHeaderInitials();
-
-  // alt:
-  //contacts = await loadData("contacts");
-  //console.log(contacts);
-
-  let URL = "http://127.0.0.1:8000/api/contacts/"
-  let response = await fetch(URL);
-  contacts = await response.json();
-  //console.log(responseToJson);
-  
-
-  
-  
+  contacts = await loadData("contacts");
   renderContacts();
 }
 

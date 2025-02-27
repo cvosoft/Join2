@@ -3,7 +3,8 @@
 // critical breakpoint of viewport width
 let vwBreak = 1350;
 
-const BASE_URL = "https://join-cvo-default-rtdb.europe-west1.firebasedatabase.app/";
+//const BASE_URL = "https://join-cvo-default-rtdb.europe-west1.firebasedatabase.app/";
+const BASE_URL = "http://127.0.0.1:8000/api/"
 
 /* Background colors for profile initials */
 let backgroundProfileColors = [
@@ -40,7 +41,7 @@ function getRandomBackgroundColor() {
  * @returns JSON-Array
  */
 async function loadData(path = "") {
-  let response = await fetch(BASE_URL + path + ".json");
+  let response = await fetch(BASE_URL + path);
   return (responseToJson = await response.json());
 }
 
