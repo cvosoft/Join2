@@ -76,12 +76,12 @@ contacts = [
 def import_contacts():
     for contact in contacts:
         Contact.objects.create(
-            first_name=contact["firstName"],
-            last_name=contact["lastName"],
+            firstName=contact["firstName"],
+            lastName=contact["lastName"],
             # Default-Wert, falls kein E-Mail vorhanden ist
             email=contact.get("email", "default@gmx.de"),
             # Falls keine Telefonnummer vorhanden ist
-            phone_number=contact.get("phoneNumber", ""),
+            phoneNumber=contact.get("phoneNumber", ""),
             profileColor=contact.get("profileColor", "#1FD7C1"),
         )
     print("Import abgeschlossen!")
