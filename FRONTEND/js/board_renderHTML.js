@@ -57,7 +57,7 @@ function renderBoardBigContainer(i) {
               <div class="boardContainerStatus">
                   <div class="boardBigContainerdate">
                       <span>Due date:</span>
-                      <div class="boardBigContainerDateInput" id="boardBigContainerDateInput">${boardTasks[i]["dueDate"]}</div>
+                      <div class="boardBigContainerDateInput" id="boardBigContainerDateInput">${boardTasks[i]["due_date"]}</div>
                   </div>
                   <div class="boardBigContainerPrio">
                       <span>Priority:</span>

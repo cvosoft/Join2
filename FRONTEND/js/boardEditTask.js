@@ -59,7 +59,7 @@ function prioSelectForEditTask(prio) {
 function fillEditTaskFormWithValues(id) {
   document.getElementsByClassName("titleId")[1].value = boardTasks[id].title;
   document.getElementsByClassName("descriptionId")[1].value = boardTasks[id].description;
-  document.getElementsByClassName("dateId")[1].value = boardTasks[id].dueDate;
+  document.getElementsByClassName("dateId")[1].value = boardTasks[id].due_date;
   document.getElementsByClassName("categoryId")[1].value = boardTasks[id].type;
   let prio = boardTasks[id].priority;
   prioSelectForEditTask(prio);
