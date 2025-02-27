@@ -7,7 +7,7 @@ urlpatterns = [
     path('users/', UsersView.as_view()),
     path('users/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
     path('tasks/', TasksView.as_view()),
-    path('tasks/<int:pk>', TaskDetailView.as_view(), name='task-detail'),
+    path('tasks/<int:pk>/', TaskDetailView.as_view(), name='task-detail'),
     path('subtasks/', SubtasksView.as_view()),
     path('subtasks/<int:pk>/', SubtaskDetailView.as_view(), name='subtask-detail'),    
 ]

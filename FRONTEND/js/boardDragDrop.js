@@ -86,11 +86,23 @@ function removeAllHighlights() {
  * function to change the category so that the container is loaded correctly when reloaded
  */
 async function moveTo(category) {
+  let id = boardTasks[currentDraggedElement].id;
   removeAllHighlights();
   boardTasks[currentDraggedElement]["category"] = category;
+  console.log(category);
+
   renderAllBoardTasks();
   document.getElementById("findInput").value = "";
-  await putData("boardtasks", boardTasks);
+
+  let data = {
+    "category": category
+  };
+
+  console.log(data) 
+
+  await putData(`tasks/${id}/`, data);
+
+
 }
 
 /**

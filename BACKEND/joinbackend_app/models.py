@@ -27,10 +27,10 @@ class Subtask(models.Model):
 
 class Task(models.Model):
     TASK_CATEGORIES = [
-        ("Feedback", "Feedback"),
-        ("To Do", "To Do"),
-        ("In Progress", "In Progress"),
-        ("Done", "Done"),
+        ("feedback", "Feedback"),
+        ("todo", "To Do"),
+        ("progress", "In Progress"),
+        ("done", "Done"),
     ]
 
     PRIORITY_CHOICES = [
@@ -45,7 +45,7 @@ class Task(models.Model):
     ]
 
     title = models.CharField(max_length=30)
-    description = models.TextField(default="beschreibung!")
+    description = models.TextField()
     subtasks = models.ManyToManyField(Subtask, blank=True)
     assigned_to = models.ManyToManyField(Contact, blank=True)
     due_date = models.DateField(default=datetime.date.today)
