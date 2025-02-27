@@ -88,8 +88,8 @@ function removeAllHighlights() {
 async function moveTo(category) {
   let id = boardTasks[currentDraggedElement].id;
   removeAllHighlights();
-  boardTasks[currentDraggedElement]["category"] = category;
-  renderAllBoardTasks();
+  //boardTasks[currentDraggedElement]["category"] = category;
+  //renderAllBoardTasks();
   document.getElementById("findInput").value = "";
 
   let data = {

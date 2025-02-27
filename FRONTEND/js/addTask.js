@@ -247,7 +247,7 @@ function selectContacts(i) {
 /**
  * function to switch to the board site after adding a task
  */
-function visitBoard() {
+async function visitBoard() {
   window.location = "board.html";
 }
 
@@ -309,14 +309,37 @@ function resetPrioContainers() {
 /**
  * function for adding a task to the board (into the wanted category)
  */
+// async function addTask(column) {
+//   subtasks = extractSubtasksForTask();
+//   let title = document.getElementById("title").value;
+//   let description = document.getElementById("description").value;
+//   let date = document.getElementById("date").value;
+//   let prio = prios[prioIndex];
+//   let category = document.getElementById("category").value;
+//   let taskCategory = [];
+//   switch (column) {
+//     case 1:
+//       taskCategory = "todo";
+//       break;
+//     case 2:
+//       taskCategory = "progress";
+//       break;
+//     case 3:
+//       taskCategory = "feedback";
+//       break;
+//     default:
+//       taskCategory = "todo";
+//   }
+//   let data = generateDataForTask(title, description, date, prio, category, taskCategory);
+//   boardTasks.push(data);
+//   await putData("boardtasks", boardTasks);
+//   visitBoard();
+// }
+
 async function addTask(column) {
-  subtasks = extractSubtasksForTask();
-  let title = document.getElementById("title").value;
-  let description = document.getElementById("description").value;
-  let date = document.getElementById("date").value;
-  let prio = prios[prioIndex];
-  let category = document.getElementById("category").value;
+
   let taskCategory = [];
+
   switch (column) {
     case 1:
       taskCategory = "todo";
@@ -330,11 +353,22 @@ async function addTask(column) {
     default:
       taskCategory = "todo";
   }
-  let data = generateDataForTask(title, description, date, prio, category, taskCategory);
-  boardTasks.push(data);
-  await putData("boardtasks", boardTasks);
-  visitBoard();
+
+  let data = {
+    "title": document.getElementById("title").value,
+    "description": document.getElementById("description").value,
+    "subtasks": [],
+    "assignedTo": [],
+    "category": taskCategory,
+    "priority": prios[prioIndex],
+    "dueDate": document.getElementById("date").value,
+    "type": document.getElementById("category").value,
+  };
+
+  await postData("tasks/", data);
+  await visitBoard();
 }
+
 
 /**
  * function for collecting all the data for the new task
