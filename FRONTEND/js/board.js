@@ -291,8 +291,9 @@ async function checkIfEmptyContainer(column) {
  * @param {} i
  */
 async function deleteTask(i) {
-  boardTasks.splice(i, 1);
-  await putData("boardtasks", boardTasks);
+  //boardTasks.splice(i, 1);
+  id = boardTasks[i].id;
+  await deleteData(`tasks/${id}/`);
   removeboardBigContainer();
   renderAllBoardTasks();
 }
