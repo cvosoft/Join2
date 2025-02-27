@@ -89,8 +89,6 @@ async function moveTo(category) {
   let id = boardTasks[currentDraggedElement].id;
   removeAllHighlights();
   boardTasks[currentDraggedElement]["category"] = category;
-  console.log(category);
-
   renderAllBoardTasks();
   document.getElementById("findInput").value = "";
 
@@ -98,11 +96,7 @@ async function moveTo(category) {
     "category": category
   };
 
-  console.log(data) 
-
-  await putData(`tasks/${id}/`, data);
-
-
+  await patchData(`tasks/${id}/`, data);
 }
 
 /**

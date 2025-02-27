@@ -24,6 +24,9 @@ class Subtask(models.Model):
     subtask_name = models.CharField(max_length=30, default="subtask")
     finished = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"{self.subtask_name}"    
+
 
 class Task(models.Model):
     TASK_CATEGORIES = [
@@ -45,12 +48,12 @@ class Task(models.Model):
     ]
 
     title = models.CharField(max_length=30)
-    description = models.TextField()
-    subtasks = models.ManyToManyField(Subtask, blank=True)
-    assigned_to = models.ManyToManyField(Contact, blank=True)
+    description = models.TextField(blank=True)
+    subtasks = models.ManyToManyField(Subtask, blank=True, null=True)
+    assigned_to = models.ManyToManyField(Contact, blank=True, null=True)
     due_date = models.DateField(default=datetime.date.today)
     category = models.CharField(
-        max_length=20, choices=TASK_CATEGORIES, default="To Do")
+        max_length=20, choices=TASK_CATEGORIES, default="todo")
     priority = models.CharField(
         max_length=20, choices=PRIORITY_CHOICES, default="Medium")
     type = models.CharField(
@@ -58,6 +61,9 @@ class Task(models.Model):
 
     class Meta:
         ordering = ['title']
+
+    def __str__(self):
+        return f"{self.title}"        
 
 
 class User(models.Model):
