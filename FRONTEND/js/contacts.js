@@ -222,18 +222,40 @@ function renderValuesToEditContactFormular(id) {
  * function to collect the data from the form and save the values when editing a contact
  * @param {*} id
  */
-async function editContact(id) {
+// async function editContact(id) {
+//   let nameInput = document.getElementById("nameInput").value;
+//   const nameArray = nameInput.split(" ");
+//   contacts[id].firstName = nameArray[0];
+//   contacts[id].lastName = nameArray[1];
+//   contacts[id].email = document.getElementById("emailInput").value;
+//   contacts[id].phoneNumber = document.getElementById("phoneInput").value;
+//   await putData("contacts", contacts);
+//   closeAddOrEditContact();
+//   renderContacts();
+//   document.getElementById("contactSingleView").innerHTML = renderSingleContactHTML(id);
+// }
+
+
+async function editContact(index) {
+
+  let id = contacts[index].id;
+
   let nameInput = document.getElementById("nameInput").value;
   const nameArray = nameInput.split(" ");
-  contacts[id].firstName = nameArray[0];
-  contacts[id].lastName = nameArray[1];
-  contacts[id].email = document.getElementById("emailInput").value;
-  contacts[id].phoneNumber = document.getElementById("phoneInput").value;
-  await putData("contacts", contacts);
+
+  let data = {
+    firstName: nameArray[0],
+    lastName: nameArray[1],
+    email: document.getElementById("emailInput").value,
+    phoneNumber: document.getElementById("phoneInput").value,
+  };
+
+  await putData(`contacts/${id}/`, data);
   closeAddOrEditContact();
   renderContacts();
   document.getElementById("contactSingleView").innerHTML = renderSingleContactHTML(id);
 }
+
 
 /**
  * function to highlight the active user in the contact list (desktop view only)
