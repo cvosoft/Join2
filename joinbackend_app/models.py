@@ -49,8 +49,8 @@ class Task(models.Model):
 
     title = models.CharField(max_length=30)
     description = models.TextField(blank=True)
-    subtasks = models.ManyToManyField(Subtask, blank=True, null=True)
-    assigned_to = models.ManyToManyField(Contact, blank=True, null=True)
+    subtasks = models.ManyToManyField(Subtask, blank=True)
+    assigned_to = models.ManyToManyField(Contact, blank=True)
     due_date = models.DateField(default=datetime.date.today)
     category = models.CharField(
         max_length=20, choices=TASK_CATEGORIES, default="todo")
