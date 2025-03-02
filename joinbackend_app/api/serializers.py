@@ -21,8 +21,37 @@ class SubtaskSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    subtasks = SubtaskSerializer(many=True, read_only=True)
+    subtasks = SubtaskSerializer(many=True)
 
     class Meta:
         model = Task
         fields = '__all__'
+
+    def update(self, instance, validated_data):
+        subtasks_data = validated_data.pop('subtasks', [])
+
+        # Update task fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        # Clear existing subtasks
+        instance.subtasks.all().delete()
+
+        # Add new subtasks correctly
+        for subtask_data in subtasks_data:
+            instance.subtasks.create(**subtask_data)  # Use related manager
+
+        return instance
+
+    def create(self, validated_data):
+        subtasks_data = validated_data.pop('subtasks', [])
+
+        # Create the task first
+        task = Task.objects.create(**validated_data)
+
+        # Create the related subtasks
+        for subtask_data in subtasks_data:
+            Subtask.objects.create(task=task, **subtask_data)
+
+        return task

@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, mixins, generics
@@ -40,8 +41,12 @@ class TasksView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generic
 
 
 class SubtasksView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
-    queryset = Subtask.objects.all()
     serializer_class = SubtaskSerializer
+
+    def get_queryset(self):
+        """Gibt nur die Subtasks zurück, die zum angegebenen Task gehören."""
+        task_id = self.kwargs.get("task_id")  # Holt die Task-ID aus der URL
+        return Subtask.objects.filter(task_id=task_id)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -116,8 +121,25 @@ class SubtaskDetailView(mixins.RetrieveModelMixin,
                         mixins.UpdateModelMixin,
                         mixins.DestroyModelMixin,
                         generics.GenericAPIView):
-    queryset = Subtask.objects.all()
+
     serializer_class = SubtaskSerializer
+
+    def get_queryset(self):
+        task_id = self.kwargs.get("task_id")  # Holt die Task-ID aus der URL
+        subtask_id = self.kwargs.get("subtask_id")
+
+        queryset = Subtask.objects.filter(task_id=task_id)
+        if subtask_id:
+            queryset = queryset.filter(id=subtask_id)
+
+        return queryset
+
+    def get_object(self):
+        """Holt ein einzelnes Subtask-Objekt basierend auf task_id und subtask_id."""
+        task_id = self.kwargs.get("task_id")
+        subtask_id = self.kwargs.get("subtask_id")
+
+        return get_object_or_404(Subtask, id=subtask_id, task_id=task_id)
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
