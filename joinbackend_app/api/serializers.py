@@ -46,9 +46,12 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         subtasks_data = validated_data.pop('subtasks', [])
+        assigned_to_data = validated_data.pop('assigned_to', [])
 
         # Create the task first
         task = Task.objects.create(**validated_data)
+
+        task.assigned_to.set(assigned_to_data)
 
         # Create the related subtasks
         for subtask_data in subtasks_data:
