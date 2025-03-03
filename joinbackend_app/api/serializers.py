@@ -44,7 +44,7 @@ class TaskSerializer(serializers.ModelSerializer):
         for subtask_data in subtasks_data:
             instance.subtasks.create(**subtask_data)  # Use related manager
 
-        # Add new subtasks correctly
+        # Add new contacts correctly
         for assigned in assigned_to_data:
             instance.assigned_to.create(**assigned)  # Use related manager
 
