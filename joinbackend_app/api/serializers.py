@@ -29,30 +29,30 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         subtasks_data = validated_data.pop('subtasks', [])
-        assigned_to_data = validated_data.pop('assigned_to', [])
+        assigned_to_data = validated_data.pop(
+            'assigned_to', None)  # kann auch leer
 
         # Update task fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
 
-        # Clear existing subtasks
-        instance.subtasks.all().delete()
-        instance.assigned_to.all().delete()
+        # Update assigned users correctly (ManyToMany)
+        if assigned_to_data is not None:
+            # Expecting a list of IDs
+            instance.assigned_to.set(assigned_to_data)
 
-        # Add new subtasks correctly
+        # Update subtasks correctly
+        instance.subtasks.all().delete()  # Clear old subtasks
         for subtask_data in subtasks_data:
-            instance.subtasks.create(**subtask_data)  # Use related manager
-
-        # Add new contacts correctly
-        for assigned in assigned_to_data:
-            instance.assigned_to.create(**assigned)  # Use related manager
+            instance.subtasks.create(**subtask_data)
 
         return instance
 
     def create(self, validated_data):
         subtasks_data = validated_data.pop('subtasks', [])
-        assigned_to_data = validated_data.pop('assigned_to', [])
+        assigned_to_data = validated_data.pop(
+            'assigned_to', [])  # kann auch leer sein
 
         # Create the task first
         task = Task.objects.create(**validated_data)
