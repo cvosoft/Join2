@@ -29,6 +29,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         subtasks_data = validated_data.pop('subtasks', [])
+        assigned_to_data = validated_data.pop('assigned_to', [])
 
         # Update task fields
         for attr, value in validated_data.items():
@@ -37,10 +38,15 @@ class TaskSerializer(serializers.ModelSerializer):
 
         # Clear existing subtasks
         instance.subtasks.all().delete()
+        instance.assigned_to.all().delete()
 
         # Add new subtasks correctly
         for subtask_data in subtasks_data:
             instance.subtasks.create(**subtask_data)  # Use related manager
+
+        # Add new subtasks correctly
+        for assigned in assigned_to_data:
+            instance.assigned_to.create(**assigned)  # Use related manager
 
         return instance
 
