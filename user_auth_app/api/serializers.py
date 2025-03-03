@@ -14,7 +14,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        field = ['username', 'email', 'password', 'repeated_password']
+        fields = ['username', 'email', 'password', 'repeated_password']
         extra_kwargs = {
             'password': {
                 'write_only': True
@@ -22,8 +22,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         }
 
     def save(self):
-        pw = self.validated_data(['password'])
-        repeated_pw = self.validated_data(['repeated_password'])
+        pw = self.validated_data['password']
+        repeated_pw = self.validated_data['repeated_password']
 
         if pw != repeated_pw:
             raise serializers.ValidationError(
